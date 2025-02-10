@@ -1,0 +1,122 @@
+<!-- ====================== EECS 493 Assignment 3 Starter Code ====================== -->
+<html>
+
+<head>
+  <title>Asteroids</title>
+  <!-- JS -->
+  <script src='scripts/jquery.min.js'></script>
+  <script src='scripts/page.js'></script>
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="style/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class='outer-container'>
+    <div class='game-window'>
+              <!-- Main Menu -->
+        <!--Header-->
+        <header>
+          <h1>Asteroids</h1>
+          <img src="src/asteroid.png" class="header-asteroid l">
+          <img src="src/asteroid.png" class="header-asteroid r">
+        </header>
+        <!--Buttons-->
+        <div class="button-div">
+          <button id="play">Play game!</button>
+          <button id="settings">Settings</button>
+        </div>
+        <!-- Settings -->
+        <div class="settings hidden">
+          <h1>Settings</h1>
+          <div class="input-group vol-group">
+            <div class="vol-info">
+              <h1>Volume: </h1> <span class="vol-val"></span>
+            </div>
+            
+            <input type="range" class="vol-slider" min="1" max="100" value="50">
+          </div>
+          <div class="input-group">
+            <h1>Difficulty</h1>
+          </div>
+          <div class="diff-buttons">
+            <button>Easy</button><button>Normal</button><button>Hard</button>
+          </div>
+          <div class="input-group">
+            <button id="close-settings">Close</button>
+          </div>
+        </div>
+        
+        <!-- Tutorial -->
+        <div class="tutorial-window hidden">
+          <h1 class="tut-title">How to Play</h1>
+          <span class="info-text"><strong>Avoid </strong><em>asteroids</em>!</span>
+          <img src="./src/asteroid.png" class="tutorial-asteroid">
+          <span class="info-text"><strong>Collect </strong><em>shields</em>! <strong>Travel </strong>through <em>portals </em>to the next level!</span>
+          <div class="shield-portal">
+            <img src="./src/shield.gif"><img src="./src/port.gif">
+          </div>
+          <span class="info-text"><strong>Gain </strong>as many <em>points </em>as possible!</span>
+          <button class="start-button" id="startbutton">Start</button>
+        </div>
+
+      <!-- Actual Game -->
+      <div id="actual-game" class="game hidden">
+
+        <div id="scoreboard" class="hidden">
+          <h1>SCORE</h1>
+          <span id="score">0</span>
+          <h1>DANGER</h1>
+          <span id="danger">20</span>
+          <h1>LEVEL</h1>
+          <span id="level">1</span>
+        </div>
+        <!-- Get Ready -->
+        <div class="getready hidden">
+
+          <h1>Get ready!</h1>
+          <img src="src/arrowkeys.png" class="arrowkeys">
+          <h2>Use arrow keys to move.</h2>
+
+        </div>
+        <!-- Asteroids -->
+        <div class="asteroidSection hidden">
+          <img src="src/player/player.gif" id="player">
+        </div>
+        <!-- Score Panel -->
+
+      </div>
+      <div id="greyout" class="hidden">
+        <h1 class="restarting hidden">Restarting...</h1>
+        <div id="restart-confirmation" class="hidden">
+          <h1>Are you sure you want to restart?</h1>
+          <div id="confirmation-buttons">
+            <button id="yes">Yes</button><button id="no">No</button>
+          </div>
+        </div>
+        <div id="pause" class="hidden">
+          <h1>Game Paused</h1>
+          <img src="src/pause-rocket.gif" id="pause-gif">
+          <button id="resume">Resume</button>
+          <div class="pause-buttons">
+            <button id="restart">Restart</button><button id="exit">Exit</button>  
+          </div>
+        
+        </div>
+      </div>
+      <div id="gameover" class="game hidden">
+        <h1>GAME OVER!</h1>
+        <h1>YOU HAVE TO FIX YOUR SPACESHIP!</h1>
+        <h1 id="finalscore"></h1> 
+        <button id="startover">Start Over</button>
+      </div>
+      <!-- Gameover -->
+
+    </div> <!-- end game-window -->
+
+    
+
+  </div> <!-- end outer-container -->
+</body>
+
+</html>
