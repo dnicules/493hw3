@@ -50,7 +50,10 @@ $(document).ready(function () {
   game_screen = $("#actual-game");
   asteroid_section = $('.asteroidSection');
 
-
+  ['player_left.gif','player_right.gif','player_up.gif','player_down.gif',
+   'player_shielded.gif','player_shielded_left.gif','player_shielded_right.gif',
+   'player_shielded_up.gif','player_shielded_down.gif'
+  ].forEach(n => new Image().src = `src/player/${n}`);
   // hide all other pages initially except landing page
   //game_screen.hide(); // Comment me out when testing the spawn() effect below
 
@@ -101,7 +104,7 @@ $(document).ready(function () {
       origastspeed = astProjectileSpeed;
     } else {
       danger = 30;
-      interval = 600;
+      astInterval = 600;
       astProjectileSpeed = 5;
     }
     origastspeed = astProjectileSpeed;
@@ -135,21 +138,22 @@ $(document).ready(function () {
 
 /* ---------------------------- EVENT HANDLERS ----------------------------- */
 // Keydown event handler
-document.onkeydown = function (e) {
-  if (e.key == 'ArrowLeft') LEFT = true;
-  if (e.key == 'ArrowRight') RIGHT = true;
-  if (e.key == 'ArrowUp') UP = true;
-  if (e.key == 'ArrowDown') DOWN = true;
-  if (e.key == 'Escape' && gamestarted) { pauseUnpause(); }
-}
+window.addEventListener('keydown', (e) => {
+  if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Escape'].includes(e.key)) e.preventDefault();
+  if (e.key === 'ArrowLeft') LEFT = true;
+  if (e.key === 'ArrowRight') RIGHT = true;
+  if (e.key === 'ArrowUp') UP = true;
+  if (e.key === 'ArrowDown') DOWN = true;
+  if (e.key === 'Escape' && gamestarted) pauseUnpause();
+});
 
-// Keyup event handler
-document.onkeyup = function (e) {
-  if (e.key == 'ArrowLeft') LEFT = false;
-  if (e.key == 'ArrowRight') RIGHT = false;
-  if (e.key == 'ArrowUp') UP = false;
-  if (e.key == 'ArrowDown') DOWN = false;
-}
+window.addEventListener('keyup', (e) => {
+  if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) e.preventDefault();
+  if (e.key === 'ArrowLeft') LEFT = false;
+  if (e.key === 'ArrowRight') RIGHT = false;
+  if (e.key === 'ArrowUp') UP = false;
+  if (e.key === 'ArrowDown') DOWN = false;
+});
 
 /* ------------------ ASSIGNMENT 2 EVENT HANDLERS BEGIN ------------------ */
 
@@ -211,67 +215,18 @@ function spawnAsteroids() {
 
 function updatePlayer() {
   checkCollisions();
-  let playerDir = "neutral";
-  if (LEFT && playerX > 0) {
-    playerX -= playerspeed;
-    playerDir = "left";
-  }
-  if (RIGHT && playerX < maxPersonPosX) {
-    playerX += playerspeed;
-    playerDir = "right";
-  }
-  if (UP && playerY > 0) {
-    playerY -= playerspeed;
-    playerDir = "up";
-  }
-  if (DOWN && playerY < maxPersonPosY) {
-    playerY += playerspeed;
-    playerDir = "down";
-  }
-  $("#player").css({
-    top: playerY + "px",
-    left: playerX + "px",
-  });
 
-  switch (playerDir) {
-    case "neutral":
-      if (!shielded) {
-        $('#player').attr("src", "src/player/player.gif");
-      } else {
-        $('#player').attr("src", "src/player/player_shielded.gif");
-      }
-      break;
-    case "right":
-      if (!shielded) {
-        $('#player').attr("src", "src/player/player_right.gif");
-      } else {
-        $('#player').attr("src", "src/player/player_shielded_right.gif");
-      }
-      break;
-    case "left":
-      if (!shielded) {
-        $('#player').attr("src", "src/player/player_left.gif");
-      } else {
-        $('#player').attr("src", "src/player/player_shielded_left.gif");
-      }
-      break;
-    case "down":
-      if (!shielded) {
-        $('#player').attr("src", "src/player/player_down.gif");
-      } else {
-        $('#player').attr("src", "src/player/player_shielded_down.gif");
-      }
-      break;
-    case "up":
-      if (!shielded) {
-        $('#player').attr("src", "src/player/player_up.gif");
-      } else {
-        $('#player').attr("src", "src/player/player_shielded_up.gif");
-      }
-      break;
+  let moved = false;
+  if (LEFT && playerX > 0) { playerX -= playerspeed; $('#player').attr('src', shielded ? 'src/player/player_shielded_left.gif'  : 'src/player/player_left.gif');  moved = true; }
+  if (RIGHT && playerX < maxPersonPosX) { playerX += playerspeed; $('#player').attr('src', shielded ? 'src/player/player_shielded_right.gif' : 'src/player/player_right.gif'); moved = true; }
+  if (UP && playerY > 0) { playerY -= playerspeed; $('#player').attr('src', shielded ? 'src/player/player_shielded_up.gif'    : 'src/player/player_up.gif');    moved = true; }
+  if (DOWN && playerY < maxPersonPosY) { playerY += playerspeed; $('#player').attr('src', shielded ? 'src/player/player_shielded_down.gif'  : 'src/player/player_down.gif');  moved = true; }
+
+  if (!moved) {
+    $('#player').attr('src', shielded ? 'src/player/player_shielded.gif' : 'src/player/player.gif');
   }
 
-
+  $("#player").css({ top: playerY + "px", left: playerX + "px" });
 }
 
 function checkCollisions() {
